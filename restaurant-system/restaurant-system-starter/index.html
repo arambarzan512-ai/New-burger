@@ -2,24 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#12372a"><title>Dar Restaurant | Order Online</title>
+  <meta name="theme-color" content="#fffaf4"><meta name="description" content="Explore the New Burger menu, build your cart, and follow your order online.">
+  <meta property="og:title" content="New Burger | Order Online"><meta property="og:description" content="Explore the New Burger menu and place your order online."><meta property="og:type" content="website">
+  <title>New Burger | Order Online</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-overrides.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
-<body>
+<body class="customer-site">
   <header class="topbar">
-    <a class="brand" href="#home" aria-label="Dar Restaurant home"><span class="brand-mark">D</span><span><b>Dar</b><small>RESTAURANT</small></span></a>
-    <nav class="main-nav"><a href="#menu">Menu</a><a href="#how">How it works</a><a href="#faq">FAQ</a></nav>
-    <div class="top-actions"><button class="icon-button" id="themeBtn" aria-label="Toggle dark mode">☾</button><button class="button button-outline" id="accountBtn">My orders</button><button class="button button-dark" id="cartBtn">Cart <span id="cartCount">0</span></button></div>
+    <a class="brand" href="#home" aria-label="New Burger home"><span class="brand-mark" data-brand-logo data-no-translate>NB</span><span><b data-brand-name data-no-translate>New Burger</b><small>RESTAURANT</small></span></a>
+    <nav class="desktop-customer-nav" aria-label="Main navigation">
+      <a href="/" data-i18n>Home</a><a href="/menu" data-i18n>Our Menu</a><a href="/#offers" data-i18n>Offers &amp; Promotions</a>
+      <button type="button" data-customer-about data-i18n>About Us</button>
+      <button type="button" data-customer-contact data-i18n>Contact Us</button>
+    </nav>
+    <div class="top-actions"><button class="button button-outline account-trigger" id="accountBtn" type="button" aria-label="Sign in"><span aria-hidden="true">♙</span> <span id="accountLabel">Sign in</span></button><button class="icon-button menu-trigger" id="menuTrigger" aria-label="Open menu" aria-controls="customerMenu" aria-expanded="false"><span aria-hidden="true">☰</span></button><button class="button button-dark cart-button" id="cartBtn" type="button" aria-label="Cart, 0 items"><span aria-hidden="true">🛒</span><span class="cart-label" data-i18n>Cart</span><span class="cart-count" id="cartCount" data-no-translate aria-hidden="true" hidden>0</span></button></div>
   </header>
+  <div class="menu-scrim" id="menuScrim" hidden></div>
+  <nav class="customer-menu" id="customerMenu" aria-label="Customer menu" aria-hidden="true" inert>
+    <div class="customer-menu-heading"><h2 data-i18n>Menu</h2><button class="icon-button menu-close" id="menuClose" aria-label="Close menu">×</button></div>
+    <ul class="customer-menu-list">
+      <li><a class="customer-menu-link" href="#home"><span class="menu-icon" aria-hidden="true">⌂</span><span data-i18n>Home</span></a></li>
+      <li><a class="customer-menu-link" href="/menu"><span class="menu-icon" aria-hidden="true">▤</span><span data-i18n>Our Menu</span></a></li>
+      <li><button class="customer-menu-link" id="ordersMenuBtn"><span class="menu-icon" aria-hidden="true">▣</span><span data-i18n>My Orders / Order Tracking</span></button></li>
+      <li>
+        <button class="customer-menu-link settings-toggle" id="settingsToggle" aria-expanded="false" aria-controls="settingsSubmenu"><span class="menu-icon" aria-hidden="true">⚙</span><span data-i18n>Settings</span><span class="settings-chevron" aria-hidden="true">⌄</span></button>
+        <ul class="settings-submenu" id="settingsSubmenu" hidden>
+          <li><button class="customer-menu-link settings-item" id="languageMenuBtn"><span class="menu-icon" aria-hidden="true">◎</span><span data-i18n>Language</span><span class="menu-detail" id="currentLanguage" data-no-translate>English</span></button></li>
+          <li><button class="customer-menu-link settings-item" id="aboutMenuBtn"><span class="menu-icon" aria-hidden="true">ⓘ</span><span data-i18n>About Us</span></button></li>
+        </ul>
+      </li>
+      <li><button class="customer-menu-link" id="promotionsMenuBtn"><span class="menu-icon" aria-hidden="true">％</span><span data-i18n>Offers &amp; Promotions</span></button></li>
+      <li><button class="customer-menu-link" id="favoritesMenuBtn"><span class="menu-icon" aria-hidden="true">♡</span><span data-i18n>Favorites</span></button></li>
+      <li><button class="customer-menu-link" id="reviewsMenuBtn"><span class="menu-icon" aria-hidden="true">☆</span><span data-i18n>Reviews &amp; Feedback</span></button></li>
+      <li><button class="customer-menu-link" id="rewardsMenuBtn"><span class="menu-icon" aria-hidden="true">✧</span><span data-i18n>Loyalty &amp; Rewards</span></button></li>
+      <li><button class="customer-menu-link" id="contactMenuBtn"><span class="menu-icon" aria-hidden="true">✆</span><span data-i18n>Contact Us</span></button></li>
+    </ul>
+  </nav>
   <main>
-    <section class="hero" id="home"><div class="hero-copy"><span class="eyebrow">FRESHLY MADE · DELIVERED TO YOU</span><h1>Good food.<br><em>Good mood.</em></h1><p>Made fresh, packed with care, and delivered to your door in Erbil.</p><div class="hero-actions"><a class="button button-dark" href="#menu">Explore menu <span>↗</span></a><a class="text-link" href="#how">How ordering works →</a></div><div class="hero-note"><span class="avatars">● ● ●</span><span><b>Made with care</b><small>Fresh food, every order</small></span></div></div><div class="hero-art"><div class="sun"></div><div class="plate"><div class="food food-a"></div><div class="food food-b"></div><div class="food food-c"></div><div class="food food-d"></div><div class="greens"></div></div><div class="art-label label-top">FRESH<br>EVERY DAY</div><div class="art-label label-bottom">YOUR TABLE,<br>OUR PASSION</div></div></section>
+    <section class="hero" id="home" aria-labelledby="heroTitle"><div class="hero-copy"><span class="eyebrow">FRESHLY MADE · DELIVERED TO YOU</span><h1 id="heroTitle" data-no-translate>Good food. Good mood.</h1><p id="heroSubtitle" data-no-translate>Freshly prepared favourites, made for sharing.</p><div class="hero-actions"><a class="button button-dark hero-order-button" href="/menu"><span id="heroButtonText" data-no-translate>Order now</span> <span aria-hidden="true">↗</span></a><a class="text-link" href="#how">How ordering works →</a></div><div class="hero-note"><span class="avatars" aria-hidden="true">✳</span><span><b>Made with care</b><small>Fresh food, every order</small></span></div></div><div class="hero-art"><img id="heroImage" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" data-default-src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="Juicy restaurant-style burger with fresh lettuce and tomato" fetchpriority="high" decoding="async"><div class="photo-caption"><span>MADE FRESH TO ORDER</span><b>A little something special.</b></div></div></section>
+    <section class="featured-section" id="featured" aria-labelledby="featuredTitle"><div class="section-heading"><div><span class="eyebrow">FROM OUR MENU</span><h2 id="featuredTitle">Featured dishes</h2><p>Browse a selection of dishes currently available to order.</p></div><a class="text-link" href="/menu">Explore the full menu →</a></div><div class="featured-grid" id="featuredGrid" aria-live="polite"><p class="loading-state">Loading dishes…</p></div></section>
+    <section class="offers-section" id="offers" aria-labelledby="offersTitle"><div class="section-heading"><div><span class="eyebrow">MADE FOR YOU</span><h2 id="offersTitle">Offers &amp; promotions</h2><p>Only currently valid restaurant offers are shown here.</p></div></div><div class="offers-grid" id="offersGrid" aria-live="polite"><p class="loading-state">Checking current offers…</p></div></section>
     <section class="benefits"><div><span>✳</span><b>Freshly prepared</b><small>Made when you order</small></div><div><span>⌁</span><b>Easy delivery</b><small>Tell us where you are</small></div><div><span>♡</span><b>Made for you</b><small>Notes and extras welcome</small></div></section>
-    <section class="section" id="menu"><div class="section-heading"><div><span class="eyebrow">WHAT SOUNDS GOOD?</span><h2>Explore the menu</h2><p>Choose a favourite. We’ll take care of the rest.</p></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search dishes…" aria-label="Search menu"></label></div><div class="category-row" id="categoryRow"></div><div class="menu-grid" id="menuGrid"></div></section>
+    <section class="section" id="menu" aria-labelledby="menuTitle"><div class="section-heading"><div><span class="eyebrow">WHAT SOUNDS GOOD?</span><h2 id="menuTitle">Explore the menu</h2><p>Choose a favourite. We’ll take care of the rest.</p></div><div class="menu-controls"><label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search dishes…" aria-label="Search menu"></label><label class="filter-control">Sort<select id="sortMenu" aria-label="Sort menu"><option value="featured">Featured</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="name">Name</option></select></label><label class="filter-control">Max price<select id="priceFilter" aria-label="Filter by maximum price"><option value="">Any price</option><option value="5000">5,000 IQD</option><option value="7500">7,500 IQD</option><option value="10000">10,000 IQD</option></select></label></div></div><div class="category-row" id="categoryRow" aria-label="Menu categories"></div><div class="menu-grid" id="menuGrid" aria-live="polite"><p class="loading-state">Loading the menu…</p></div></section>
     <section class="how-section" id="how"><div><span class="eyebrow">THREE EASY STEPS</span><h2>Your next favourite meal is close.</h2></div><div class="steps"><article><span>01</span><h3>Choose your food</h3><p>Explore the menu and add your favourites to the basket.</p></article><article><span>02</span><h3>Tell us where</h3><p>Enter your street, building and delivery instructions.</p></article><article><span>03</span><h3>Follow your order</h3><p>See each update from confirmation to delivery.</p></article></div></section>
-    <section class="faq-section" id="faq"><div><span class="eyebrow">NEED TO KNOW?</span><h2>Frequently asked questions</h2></div><div class="faq-list"><details><summary>How do I place an order?</summary><p>Choose dishes, add them to your cart, enter your contact and delivery details, then submit the order.</p></details><details><summary>Can I pay cash on delivery?</summary><p>This starter supports cash on delivery as a demo option. Real payment processing must be configured before launch.</p></details><details><summary>How do I track my order?</summary><p>Open “My orders” on this device to see saved demo orders and their latest status.</p></details><details><summary>Can I add delivery instructions?</summary><p>Yes. Add your street, building, floor or apartment, and any useful notes at checkout.</p></details></div></section>
+    <section class="faq-section" id="faq"><div><span class="eyebrow">NEED TO KNOW?</span><h2>Frequently asked questions</h2></div><div class="faq-list"><details><summary>How do I place an order?</summary><p>Choose dishes, add them to your cart, enter your contact and delivery details, then submit the order.</p></details><details><summary>Can I pay cash on delivery?</summary><p>Cash on delivery is available. Card and online payment processing are not configured.</p></details><details><summary>How do I track my order?</summary><p>Open “My Orders / Order Tracking” on this device to securely view orders placed here and their latest status.</p></details><details><summary>Can I add delivery instructions?</summary><p>Yes. Add your street, building, floor or apartment, and any useful notes at checkout.</p></details></div></section>
   </main>
-  <footer><a class="brand" href="#home"><span class="brand-mark">D</span><span><b>Dar</b><small>RESTAURANT</small></span></a><p>Fresh food, made with care.</p><span>© <span id="year"></span> Dar Restaurant · Demo starter</span></footer>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <nav class="mobile-bottom-nav" aria-label="Quick navigation">
+    <a href="#home" aria-label="Home"><span aria-hidden="true">⌂</span><small data-i18n>Home</small></a>
+    <a href="/menu" aria-label="Our Menu"><span aria-hidden="true">▤</span><small data-i18n>Our Menu</small></a>
+    <button id="bottomFavoritesBtn" type="button" aria-label="Favorites"><span aria-hidden="true">♡</span><small data-i18n>Favorites</small></button>
+    <button id="bottomOrdersBtn" type="button" aria-label="My Orders"><span aria-hidden="true">▣</span><small data-i18n>My Orders</small></button>
+    <button id="bottomCartBtn" type="button" aria-label="Cart"><span aria-hidden="true">🛒</span><small data-i18n>Cart</small><b id="bottomCartCount" data-no-translate>0</b></button>
+  </nav>
+  <aside class="floating-cart-bar" id="floatingCartBar" aria-live="polite" hidden>
+    <div class="floating-cart-summary"><b id="floatingCartCount" data-no-translate>0 items</b><span id="floatingCartTotal" data-no-translate>0 IQD</span></div>
+    <button class="button button-dark" id="floatingCartBtn" type="button" data-i18n>View Cart</button>
+  </aside>
+  <footer><a class="brand" href="#home"><span class="brand-mark" data-brand-logo data-no-translate>NB</span><span><b data-brand-name data-no-translate>New Burger</b><small>RESTAURANT</small></span></a><p>Fresh food, made with care.</p><span>© <span id="year" data-no-translate></span> <span data-brand-name data-no-translate>New Burger</span></span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite" data-no-translate></div>
   <div class="modal-backdrop hidden" id="modalBackdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="closeModal" aria-label="Close">×</button><div id="modalContent"></div></section></div>
   <script src="app.js"></script>
 </body></html>

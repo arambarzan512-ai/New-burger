@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fffaf4">
+  <title>New Burger | Kitchen</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-overrides.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">NB</span><span><b>New Burger</b><small>KITCHEN</small></span></a>
+    <div class="top-actions"><a class="button button-outline" href="index.html">Customer website</a><button class="button button-outline hidden" id="kitchenLogoutBtn">Sign out</button></div>
+  </header>
+  <main class="section admin-page">
+    <section class="admin-login hidden" id="kitchenLoginPanel">
+      <span class="eyebrow">STAFF ACCESS</span><h1>Kitchen sign in</h1>
+      <form id="kitchenLoginForm">
+        <div class="field"><label for="kitchenEmail">Staff email</label><input id="kitchenEmail" type="email" required autocomplete="username"></div>
+        <div class="field"><label for="kitchenPassword">Password</label><input id="kitchenPassword" type="password" required autocomplete="current-password"></div>
+        <button class="button button-dark wide" type="submit">Sign in</button><p class="form-error" id="kitchenLoginError" role="alert"></p>
+      </form>
+    </section>
+    <section class="hidden" id="kitchenPanel">
+      <div class="section-heading"><div><span class="eyebrow">PREPARATION QUEUE</span><h1>Kitchen orders</h1><p>Orders are shared with customer tracking, cashier, and delivery staff.</p></div><button class="button button-outline" id="kitchenRefreshBtn">Refresh</button></div>
+      <div id="kitchenOrders" class="admin-orders"></div>
+    </section>
+  </main>
+  <div class="toast" id="kitchenToast" role="status" aria-live="polite"></div>
+  <script src="kitchen.js"></script>
+</body>
+</html>

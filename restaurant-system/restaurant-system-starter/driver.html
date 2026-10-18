@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fffaf4">
+  <title>New Burger | Driver</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-overrides.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">NB</span><span><b>New Burger</b><small>DRIVER</small></span></a>
+    <div class="top-actions"><a class="button button-outline" href="index.html">Customer website</a><button class="button button-outline hidden" id="driverLogoutBtn">Sign out</button></div>
+  </header>
+  <main class="section admin-page">
+    <section class="admin-login hidden" id="driverLoginPanel">
+      <span class="eyebrow">STAFF ACCESS</span><h1>Driver sign in</h1>
+      <form id="driverLoginForm">
+        <div class="field"><label for="driverEmail">Staff email</label><input id="driverEmail" type="email" required autocomplete="username"></div>
+        <div class="field"><label for="driverPassword">Password</label><input id="driverPassword" type="password" required autocomplete="current-password"></div>
+        <button class="button button-dark wide" type="submit">Sign in</button><p class="form-error" id="driverLoginError" role="alert"></p>
+      </form>
+    </section>
+    <section class="hidden" id="driverPanel">
+      <div class="section-heading"><div><span class="eyebrow">ASSIGNED DELIVERIES</span><h1>My deliveries</h1><p>Only orders assigned to this driver account are shown. Location is limited to each delivery destination.</p></div><button class="button button-outline" id="driverRefreshBtn">Refresh</button></div>
+      <div id="driverOrders" class="admin-orders"></div>
+    </section>
+  </main>
+  <div class="toast" id="driverToast" role="status" aria-live="polite"></div>
+  <script src="driver.js"></script>
+</body>
+</html>

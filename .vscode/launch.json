@@ -7,9 +7,10 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
+            "name": "Launch Dar Restaurant",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/restaurant-system/restaurant-system-starter",
+            "preLaunchTask": "Start Dar Restaurant"
         }
     ]
 }

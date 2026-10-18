@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Dar Restaurant",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/restaurant-system/restaurant-system-starter"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "dar-restaurant",
+        "pattern": {
+          "regexp": "^(.*)$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Dar Restaurant is available on port 3000",
+          "endsPattern": "Dar Restaurant is available on port 3000"
+        }
+      }
+    }
+  ]
+}

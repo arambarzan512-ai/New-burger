@@ -1,1 +1,273 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#12372a"><title>Dar Restaurant | Management</title><link rel="stylesheet" href="style.css"></head><body><header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">D</span><span><b>Dar</b><small>MANAGEMENT</small></span></a><div class="top-actions"><a class="button button-outline" href="index.html">Customer website ↗</a><button class="icon-button" id="themeBtn" aria-label="Toggle dark mode">☾</button></div></header><main class="section"><div class="section-heading"><div><span class="eyebrow">PRIVATE MANAGEMENT PREVIEW</span><h2>Restaurant operations</h2><p>Choose a role to preview its workspace.</p></div><span class="status-pill">DEMO MODE</span></div><div class="demo-warning">This is a prototype only. The role selector is not secure login, and data is saved only in this browser. Do not use with real customer data until a secure backend is connected.</div><div class="role-grid" id="roles"></div><section id="dashboard" style="margin-top:25px"></section></main><footer><a class="brand" href="index.html"><span class="brand-mark">D</span><span><b>Dar</b><small>RESTAURANT</small></span></a><span>Management prototype · Secure authentication required before launch</span></footer><div class="toast" id="toast" role="status" aria-live="polite"></div><script src="admin.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fffaf4">
+  <title>New Burger | Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-overrides.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">NB</span><span><b>New Burger</b><small>MANAGEMENT</small></span></a>
+    <div class="top-actions">
+      <a class="button button-outline" href="index.html">Customer website ↗</a>
+      <button class="button button-outline hidden" id="logoutBtn">Sign out</button>
+    </div>
+  </header>
+  <main class="section admin-page">
+    <section id="loginPanel" class="admin-login hidden">
+      <span class="eyebrow">PRIVATE MANAGEMENT</span>
+      <h1>Admin sign in</h1>
+      <p class="section-heading-copy">Sign in to manage the restaurant menu and customer orders.</p>
+      <form id="loginForm">
+        <div class="field"><label for="email">Admin email</label><input id="email" name="email" type="email" autocomplete="username" required></div>
+        <div class="field"><label for="password">Admin password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+        <button class="button button-dark wide" type="submit">Sign in</button>
+        <p id="loginError" class="form-error" role="alert"></p>
+      </form>
+      <p id="setupHint" class="hint"></p>
+    </section>
+    <section id="adminPanel" class="hidden">
+      <div class="admin-layout">
+        <aside class="admin-sidebar" aria-label="Admin navigation">
+          <span class="admin-nav-group">Overview</span>
+          <a href="#adminOverview">Dashboard</a>
+          <span class="admin-nav-group">Operations</span>
+          <a href="#adminOrders">Orders</a>
+          <a href="#adminMenu">Menu</a>
+          <a href="#adminPromotions">Promotions</a>
+          <a href="#adminReviews">Reviews</a>
+          <a href="#adminCoupons">Coupons</a>
+          <span class="admin-nav-group">Business</span>
+          <a href="#adminReports">Sales and reports</a>
+          <a href="#adminDeliverySettings">Delivery settings</a>
+          <a href="#adminTables">Dine-in tables</a>
+          <span class="admin-nav-group">Management</span>
+          <a href="#adminStaff">Staff accounts</a>
+          <a href="#adminDesign">Website settings</a>
+          <a href="#adminAudit">Audit history</a>
+        </aside>
+        <details class="admin-mobile-nav">
+          <summary>Dashboard sections</summary>
+          <nav aria-label="Admin dashboard sections">
+            <a href="#adminOverview">Dashboard</a><a href="#adminOrders">Orders</a>
+            <a href="#adminMenu">Menu</a><a href="#adminPromotions">Promotions</a>
+            <a href="#adminReviews">Reviews</a><a href="#adminCoupons">Coupons</a>
+            <a href="#adminReports">Sales and reports</a><a href="#adminDeliverySettings">Delivery settings</a>
+            <a href="#adminTables">Dine-in tables</a><a href="#adminStaff">Staff accounts</a>
+            <a href="#adminDesign">Website settings</a><a href="#adminAudit">Audit history</a>
+          </nav>
+        </details>
+        <div class="admin-content">
+      <div class="section-heading admin-heading" id="adminOverview">
+        <div><span class="eyebrow">RESTAURANT OPERATIONS</span><h1>Management dashboard</h1><p>Menu and orders are shared with the customer website.</p></div>
+        <div class="admin-item-actions">
+          <a class="button button-outline" href="cashier.html">Cashier view ↗</a>
+          <a class="button button-outline" href="driver.html">Driver portal ↗</a>
+          <button class="button button-outline" id="refreshBtn">Refresh data</button>
+        </div>
+      </div>
+      <section class="admin-card dashboard-card" id="adminReports">
+        <div class="dashboard-top"><div><h2>Restaurant performance</h2><p class="hint">Collected revenue includes only Paid orders that have been delivered, collected, or completed. Order value includes active orders and is not reported as revenue.</p></div></div>
+        <form id="reportFilters" class="form-grid" aria-label="Filter reports">
+          <div class="field"><label for="reportFrom">From date</label><input id="reportFrom" name="from" type="date"></div>
+          <div class="field"><label for="reportTo">To date</label><input id="reportTo" name="to" type="date"></div>
+          <div class="field"><label for="reportType">Order type</label><select id="reportType" name="deliveryType"><option value="">All types</option><option value="delivery">Delivery</option><option value="pickup">Pickup / Takeaway</option><option value="dine-in">Dine-in</option></select></div>
+          <div class="field"><label for="reportStatus">Status</label><select id="reportStatus" name="status"><option value="">All statuses</option><option>Pending approval</option><option>Confirmed</option><option>Preparing</option><option>Ready</option><option>Assigned</option><option>Picked Up</option><option>Out for delivery</option><option>Delivery problem</option><option>Delivered</option><option>Collected</option><option>Served</option><option>Completed</option><option>Cancelled</option></select></div>
+          <div class="field"><label for="reportPayment">Payment status</label><select id="reportPayment" name="paymentStatus"><option value="">All payments</option><option>Pending</option><option>Paid</option></select></div>
+          <div class="field"><label for="reportProduct">Product</label><select id="reportProduct" name="productId"><option value="">All products</option></select></div>
+          <div class="field"><label for="reportStaff">Staff member</label><select id="reportStaff" name="staffId"><option value="">All staff</option></select></div>
+          <div class="admin-item-actions"><button class="button button-dark" type="submit">Apply report filters</button><button class="button button-outline" type="reset">Clear filters</button></div>
+        </form>
+        <div id="analyticsCards" class="dashboard-stats"></div>
+        <div class="analytics-grid">
+          <section><h3>Collected revenue · last 7 days</h3><div id="salesChart" class="sales-chart"></div></section>
+          <section><h3>Completed by order type</h3><div id="salesByType" class="best-sellers"></div></section>
+          <section><h3>Best-selling items</h3><div id="bestSellers" class="best-sellers"></div></section>
+          <section><h3>Unavailable menu items</h3><div id="unavailableItems" class="best-sellers"></div></section>
+        </div>
+      </section>
+      <section class="admin-card admin-design-card" id="adminDesign">
+        <h2>Website appearance &amp; content</h2>
+        <p class="hint">Changes are stored on this server. Save a draft, preview it on the customer site, then publish when ready.</p>
+        <form id="designForm">
+          <div class="form-grid">
+            <div class="field"><label for="restaurantName">Restaurant name *</label><input id="restaurantName" maxlength="60" required></div>
+            <div class="field"><label for="logoText">Logo letter or text</label><input id="logoText" maxlength="4" placeholder="D"></div>
+            <div class="field"><label for="themePreset">Theme preset</label><select id="themePreset"><option value="new-burger-bright">New Burger Bright</option><option value="custom">Custom</option><option value="premium-dark">Legacy dark</option></select></div>
+            <div class="field full image-editor"><label for="logoUpload">Restaurant logo</label><div class="image-editor-preview"><img id="logoPreview" alt="Current restaurant logo preview" class="hidden"><span id="logoPreviewEmpty">Logo text will be shown when no image is selected.</span></div><input id="logoUpload" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><div class="image-editor-actions"><button class="button button-outline" type="button" data-upload-for="logoUpload">Upload / Replace logo</button><button class="button button-outline" type="button" data-remove-image="logoImage">Remove logo</button><span id="logoUploadProgress" class="hint" aria-live="polite"></span></div><label class="advanced-label" for="logoImage">Advanced: image URL (optional)</label><input id="logoImage" type="url" maxlength="500" placeholder="https://... or /uploads/..."></div>
+            <div class="field"><label for="backgroundColor">Main background</label><input id="backgroundColor" type="color"></div>
+            <div class="field"><label for="secondaryBackground">Secondary background</label><input id="secondaryBackground" type="color"></div>
+            <div class="field"><label for="accentColor">Accent / buttons</label><input id="accentColor" type="color"></div>
+            <div class="field"><label for="goldColor">Gold highlights</label><input id="goldColor" type="color"></div>
+            <div class="field"><label for="textColor">Headings and text</label><input id="textColor" type="color"></div>
+            <div class="field"><label for="mutedColor">Description text</label><input id="mutedColor" type="color"></div>
+            <div class="field"><label for="cardColor">Card background</label><input id="cardColor" type="color"></div>
+            <div class="field"><label for="borderColor">Borders</label><input id="borderColor" type="color"></div>
+            <div class="field"><label for="cornerRadius">Corner radius (6–28px)</label><input id="cornerRadius" type="number" min="6" max="28" step="1"></div>
+            <div class="field"><label for="backgroundStyle">Background treatment</label><select id="backgroundStyle"><option value="pattern">Subtle pattern</option><option value="photo">Photo</option><option value="both">Photo + pattern</option><option value="plain">Plain</option></select></div>
+            <div class="field full image-editor"><label for="backgroundUpload">Main background photo (optional)</label><div class="image-editor-preview"><img id="backgroundPreview" alt="Current background image preview" class="hidden"><span id="backgroundPreviewEmpty">No background photo selected.</span></div><input id="backgroundUpload" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><div class="image-editor-actions"><button class="button button-outline" type="button" data-upload-for="backgroundUpload">Upload / Replace background photo</button><button class="button button-outline" type="button" data-remove-image="backgroundImage">Remove background photo</button><span id="backgroundUploadProgress" class="hint" aria-live="polite"></span></div><label class="advanced-label" for="backgroundImage">Advanced: image URL (optional)</label><input id="backgroundImage" type="url" maxlength="500" placeholder="https://... or /uploads/..."></div>
+            <div class="field full image-editor"><label for="heroUpload">Homepage hero photo</label><div class="image-editor-preview"><img id="heroPreview" alt="Current hero image preview" class="hidden"><span id="heroPreviewEmpty">No hero photo selected.</span></div><input id="heroUpload" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><div class="image-editor-actions"><button class="button button-outline" type="button" data-upload-for="heroUpload">Upload / Replace hero photo</button><button class="button button-outline" type="button" data-remove-image="heroImage">Remove hero photo</button><span id="heroUploadProgress" class="hint" aria-live="polite"></span></div><label class="advanced-label" for="heroImage">Advanced: image URL (optional)</label><input id="heroImage" type="url" maxlength="500" placeholder="https://... or /uploads/..."></div>
+            <div class="field"><label for="heroOverlay">Hero photo overlay darkness (%)</label><input id="heroOverlay" type="range" min="0" max="90" step="1"><output id="heroOverlayValue"></output></div>
+            <div class="field"><label class="availability-toggle"><input id="showFeatured" type="checkbox"> Show featured dishes</label></div>
+            <div class="field"><label class="availability-toggle"><input id="showOffers" type="checkbox"> Show offers section</label></div>
+            <div class="field"><label class="availability-toggle"><input id="showBenefits" type="checkbox"> Show benefits strip</label></div>
+            <div class="field"><label for="contentLanguage">Edit language</label><select id="contentLanguage"><option value="en">English</option><option value="ckb">Kurdish Sorani</option><option value="ar">Arabic</option></select></div>
+            <div class="field full"><label for="heroTitle">Homepage hero heading</label><input id="heroTitle" maxlength="120"></div>
+            <div class="field full"><label for="heroSubtitle">Homepage hero description</label><textarea id="heroSubtitle" maxlength="300"></textarea></div>
+            <div class="field"><label for="heroButton">Hero button text</label><input id="heroButton" maxlength="40"></div>
+            <div class="field full image-editor"><label for="aboutUpload">About Us photo (optional)</label><div class="image-editor-preview"><img id="aboutPreview" alt="Current About Us image preview" class="hidden"><span id="aboutPreviewEmpty">No About Us photo selected.</span></div><input id="aboutUpload" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><div class="image-editor-actions"><button class="button button-outline" type="button" data-upload-for="aboutUpload">Upload / Replace About Us photo</button><button class="button button-outline" type="button" data-remove-image="aboutImage">Remove About Us photo</button><span id="aboutUploadProgress" class="hint" aria-live="polite"></span></div><label class="advanced-label" for="aboutImage">Advanced: image URL (optional)</label><input id="aboutImage" type="url" maxlength="500" placeholder="https://... or /uploads/..."></div>
+            <div class="field full"><label for="aboutStory">About Us story</label><textarea id="aboutStory" maxlength="2000" placeholder="Add the restaurant's real story and information."></textarea></div>
+            <div class="field"><label for="contactPhone">Public phone / WhatsApp</label><input id="contactPhone" type="tel" maxlength="40" placeholder="+964…"><small class="hint">Include the international country code to enable the order-confirmation WhatsApp link.</small></div>
+            <div class="field"><label for="contactEmail">Public email</label><input id="contactEmail" type="email" maxlength="254"></div>
+            <div class="field full"><label for="contactAddress">Public address</label><input id="contactAddress" maxlength="300"></div>
+            <div class="field"><label for="rewardsPointsPer1000">Points per 1,000 IQD (0 disables)</label><input id="rewardsPointsPer1000" type="number" min="0" max="1000" step="1" value="0"></div>
+            <div class="field"><label for="rewardsThreshold">Points needed for reward (0 disables)</label><input id="rewardsThreshold" type="number" min="0" max="1000000" step="1" value="0"></div>
+            <div class="field full"><label for="rewardsDescription">Reward and redemption instructions</label><textarea id="rewardsDescription" maxlength="300" placeholder="Required when rewards are enabled; tell customers what staff can redeem."></textarea></div>
+          </div>
+          <div class="admin-form-actions"><button class="button button-dark" type="submit" id="saveDesignBtn">Save draft</button><button class="button button-outline" type="button" id="previewDesignBtn">Preview</button><button class="button button-outline" type="button" id="publishDesignBtn">Publish</button><button class="button button-outline" type="button" id="cancelDesignBtn">Cancel changes</button><button class="button button-outline" type="button" id="restoreDesignBtn">Restore previous version</button><button class="button button-outline" type="button" id="resetThemeBtn">Reset to New Burger Bright defaults</button></div>
+          <p id="designStatus" class="hint" role="status" aria-live="polite"></p>
+          <p id="designError" class="form-error" role="alert"></p>
+        </form>
+      </section>
+      <section class="admin-card dashboard-card" id="adminDeliverySettings">
+        <h2>Delivery settings</h2>
+        <p class="hint">Set real delivery fees, minimum order, pickup availability, and an optional circular service area. No service area is enforced until configured.</p>
+        <form id="deliverySettingsForm">
+          <div class="form-grid">
+            <div class="field"><label for="deliveryFee">Delivery fee (IQD)</label><input id="deliveryFee" type="number" min="0" step="1" required></div>
+            <div class="field"><label for="minimumOrder">Minimum subtotal (IQD)</label><input id="minimumOrder" type="number" min="0" step="1" required></div>
+            <div class="field full"><label class="availability-toggle"><input id="pickupEnabled" type="checkbox"> Enable customer pickup</label></div>
+            <div class="field full"><label class="availability-toggle"><input id="dineInEnabled" type="checkbox"> Enable online dine-in ordering</label></div>
+            <div class="field"><label for="deliveryAreaLatitude">Delivery area center latitude (optional)</label><input id="deliveryAreaLatitude" type="number" min="-90" max="90" step="any"></div>
+            <div class="field"><label for="deliveryAreaLongitude">Delivery area center longitude (optional)</label><input id="deliveryAreaLongitude" type="number" min="-180" max="180" step="any"></div>
+            <div class="field"><label for="deliveryAreaRadius">Delivery radius (km)</label><input id="deliveryAreaRadius" type="number" min="0.1" max="250" step="any"></div>
+          </div>
+          <button class="button button-dark" type="submit" id="saveDeliverySettingsBtn">Save delivery settings</button>
+          <p id="deliverySettingsError" class="form-error" role="alert"></p>
+        </form>
+      </section>
+      <section class="admin-card dashboard-card" id="adminStaff">
+        <h2>Staff accounts</h2>
+        <p class="hint">Cashiers can manage orders and confirm cash collection. Drivers can see only deliveries assigned to their account.</p>
+        <form id="staffForm">
+          <div class="form-grid">
+            <div class="field"><label for="staffName">Staff name *</label><input id="staffName" maxlength="100" required></div>
+            <div class="field"><label for="staffEmail">Staff email *</label><input id="staffEmail" type="email" maxlength="254" required></div>
+            <div class="field"><label for="staffPassword">Initial password (12+ characters) *</label><input id="staffPassword" type="password" minlength="12" maxlength="200" required autocomplete="new-password"></div>
+            <div class="field"><label for="staffRole">Role</label><select id="staffRole"><option value="cashier">Cashier</option><option value="kitchen">Kitchen</option><option value="driver">Driver</option></select></div>
+          </div>
+          <button class="button button-dark" type="submit" id="createStaffBtn">Create staff account</button>
+          <p id="staffError" class="form-error" role="alert"></p>
+        </form>
+        <div id="staffList" class="admin-feature-list"></div>
+      </section>
+      <section class="admin-card dashboard-card" id="adminTables">
+        <h2>Dine-in tables</h2>
+        <p class="hint">Manage table numbers and reservations. Occupied tables are derived from active dine-in orders and cannot be removed.</p>
+        <form id="tableForm" class="admin-form-actions">
+          <label class="field" for="tableNumber">Table number or name<input id="tableNumber" maxlength="30" required></label>
+          <button class="button button-dark" type="submit" id="createTableBtn">Add table</button>
+          <p id="tableError" class="form-error" role="alert"></p>
+        </form>
+        <div id="tableList" class="admin-feature-list"></div>
+      </section>
+      <section class="admin-card dashboard-card" id="adminDeliveryMap">
+        <h2>Delivery destinations</h2>
+        <p class="hint">Protected view for authorized restaurant staff. Map tile requests are sent to OpenStreetMap.</p>
+        <div id="deliveryMap" class="admin-delivery-map" role="application" aria-label="Delivery order destination map"></div>
+      </section>
+      <div class="admin-columns">
+        <section class="admin-card" id="adminPromotions">
+          <h2>Offers and promotions</h2>
+          <p class="hint">Only enter genuine offers the restaurant will honor. Customers see promotions only during their valid dates.</p>
+          <form id="promotionForm">
+            <input id="promotionId" type="hidden">
+            <div class="field"><label for="promotionTitle">Offer title *</label><input id="promotionTitle" maxlength="100" required></div>
+            <div class="field"><label for="promotionDescription">Details and conditions *</label><textarea id="promotionDescription" maxlength="500" required></textarea></div>
+            <div class="field"><label for="promotionStartsAt">Starts *</label><input id="promotionStartsAt" type="datetime-local" required></div>
+            <div class="field"><label for="promotionEndsAt">Ends *</label><input id="promotionEndsAt" type="datetime-local" required></div>
+            <div class="field full image-editor"><label for="promotionUpload">Offer image (optional)</label><div class="image-editor-preview"><img id="promotionPreview" alt="Current offer image preview" class="hidden"><span id="promotionPreviewEmpty">No offer image selected.</span></div><input id="promotionUpload" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><div class="image-editor-actions"><button class="button button-outline" type="button" data-upload-for="promotionUpload">Upload / Replace offer image</button><button class="button button-outline" type="button" data-remove-image="promotionImage">Remove offer image</button><span id="promotionUploadProgress" class="hint" aria-live="polite"></span></div><label class="advanced-label" for="promotionImage">Advanced: image URL (optional)</label><input id="promotionImage" type="url" maxlength="500" placeholder="https://... or /uploads/..."></div>
+            <div class="admin-form-actions"><button class="button button-dark" id="savePromotionBtn" type="submit">Add offer</button><button class="button button-outline hidden" id="cancelPromotionEditBtn" type="button">Cancel edit</button></div>
+            <p id="promotionError" class="form-error" role="alert"></p>
+          </form>
+          <div id="promotionList" class="admin-feature-list"></div>
+        </section>
+        <section class="admin-card" id="adminReviews">
+          <h2>Customer reviews</h2>
+          <p class="hint">Reviews come from delivered orders with a valid tracking code. Approve genuine reviews before they are published.</p>
+          <div id="reviewAdminList" class="admin-feature-list"></div>
+        </section>
+      </div>
+      <section class="admin-card dashboard-card" id="adminCoupons">
+        <h2>Coupons</h2>
+        <p class="hint">Coupons are validated on the server at checkout and again when an order is placed. Set usage, minimum subtotal, date, and order-type limits.</p>
+        <form id="couponForm">
+          <input id="couponId" type="hidden">
+          <div class="form-grid">
+            <div class="field"><label for="couponCode">Coupon code *</label><input id="couponCode" maxlength="32" pattern="[A-Za-z0-9_-]{3,32}" required></div>
+            <div class="field"><label for="couponDiscountType">Discount type</label><select id="couponDiscountType"><option value="percentage">Percentage</option><option value="fixed">Fixed IQD</option></select></div>
+            <div class="field"><label for="couponAmount">Discount amount *</label><input id="couponAmount" type="number" min="1" step="1" required></div>
+            <div class="field"><label for="couponMinimum">Minimum subtotal (IQD)</label><input id="couponMinimum" type="number" min="0" step="1" value="0" required></div>
+            <div class="field"><label for="couponUsageLimit">Total uses (blank = unlimited)</label><input id="couponUsageLimit" type="number" min="1" max="1000000" step="1"></div>
+            <div class="field"><label for="couponCustomerLimit">Uses per customer</label><input id="couponCustomerLimit" type="number" min="1" max="1000" step="1" value="1" required></div>
+            <div class="field"><label for="couponStartsAt">Starts *</label><input id="couponStartsAt" type="datetime-local" required></div>
+            <div class="field"><label for="couponEndsAt">Ends *</label><input id="couponEndsAt" type="datetime-local" required></div>
+            <div class="field"><label for="couponOrderTypes">Eligible order types</label><select id="couponOrderTypes" multiple size="3"><option value="delivery" selected>Delivery</option><option value="pickup" selected>Pickup / Takeaway</option><option value="dine-in" selected>Dine-in</option></select></div>
+            <div class="field"><label class="availability-toggle"><input id="couponActive" type="checkbox" checked> Coupon active</label></div>
+          </div>
+          <div class="admin-form-actions"><button class="button button-dark" type="submit" id="saveCouponBtn">Create coupon</button><button class="button button-outline hidden" type="button" id="cancelCouponEditBtn">Cancel edit</button></div>
+          <p id="couponError" class="form-error" role="alert"></p>
+        </form>
+        <div id="couponList" class="admin-feature-list"></div>
+      </section>
+      <section class="admin-card dashboard-card" id="adminAudit">
+        <h2>Audit history</h2>
+        <p class="hint">Recent owner and staff actions affecting orders, payments, settings, products, reviews, promotions, coupons, and staff accounts.</p>
+        <div id="auditLogList" class="admin-feature-list" aria-live="polite"></div>
+      </section>
+      <div class="admin-columns">
+        <section class="admin-card" id="adminMenu">
+          <h2>Menu management</h2>
+          <form id="menuForm">
+            <input id="itemId" type="hidden">
+            <div class="form-grid">
+              <div class="field"><label for="itemName">Product name *</label><input id="itemName" required maxlength="100"></div>
+              <div class="field"><label for="itemCategory">Category *</label><input id="itemCategory" required maxlength="60"></div>
+              <div class="field"><label for="itemPrice">Price (IQD) *</label><input id="itemPrice" type="number" min="1" step="1" required></div>
+              <div class="field"><label for="itemTag">Menu tag</label><input id="itemTag" maxlength="30" placeholder="POPULAR"></div>
+              <div class="field full"><label for="itemDescription">Description *</label><textarea id="itemDescription" required maxlength="500"></textarea></div>
+              <div class="field full image-editor"><label for="itemUpload">Product photo (optional)</label><div class="image-editor-preview"><img id="itemPreview" alt="Current product image preview" class="hidden"><span id="itemPreviewEmpty">Fallback artwork will be shown when no photo is selected.</span></div><input id="itemUpload" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><div class="image-editor-actions"><button class="button button-outline" type="button" data-upload-for="itemUpload">Upload / Replace product photo</button><button class="button button-outline" type="button" data-remove-image="itemImage">Remove product photo</button><span id="itemUploadProgress" class="hint" aria-live="polite"></span></div><label class="advanced-label" for="itemImage">Advanced: image URL (optional)</label><input id="itemImage" type="url" maxlength="500" placeholder="https://... or /uploads/..."></div>
+              <div class="field"><label for="itemEmoji">Fallback emoji</label><input id="itemEmoji" maxlength="12" placeholder="🍽️"></div>
+              <div class="field"><label for="itemPrepTime">Prep time (minutes)</label><input id="itemPrepTime" type="number" min="1" max="240" step="1" placeholder="e.g. 15"></div>
+              <div class="field full"><label for="itemIngredients">Ingredients</label><input id="itemIngredients" maxlength="1200" placeholder="Beef, house sauce, lettuce"></div>
+              <div class="field full"><label for="itemExtras">Optional extras (one per line: name, price)</label><textarea id="itemExtras" maxlength="1600" placeholder="Extra cheese, 1000&#10;Add bacon, 1500"></textarea></div>
+              <div class="field full"><label class="availability-toggle"><input id="itemAvailable" type="checkbox" checked> Available to order</label></div>
+            </div>
+            <div class="admin-form-actions"><button class="button button-dark" type="submit" id="saveItemBtn">Add product</button><button class="button button-outline hidden" type="button" id="cancelEditBtn">Cancel edit</button></div>
+            <p id="menuError" class="form-error" role="alert"></p>
+          </form>
+          <div id="menuList" class="admin-menu-list"></div>
+        </section>
+        <section class="admin-card" id="adminOrders">
+          <h2>Customer orders</h2>
+          <p class="hint">Changing a status updates the customer's order tracking page.</p>
+          <label class="search-box order-search"><span>⌕</span><input id="orderSearch" type="search" placeholder="Search order, customer, phone…"></label>
+          <div class="order-filter-row">
+            <label class="filter-control" for="orderTypeFilter">Order type<select id="orderTypeFilter"><option value="">All types</option><option value="delivery">Delivery</option><option value="takeaway">Takeaway</option></select></label>
+            <label class="filter-control" for="orderPaymentFilter">Payment type<select id="orderPaymentFilter"><option value="">All payment types</option><option value="delivery">Cash on Delivery</option><option value="store">Cash at Store</option></select></label>
+          </div>
+          <div id="ordersList" class="admin-orders"></div>
+        </section>
+      </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer><a class="brand" href="index.html"><span class="brand-mark">NB</span><span><b>New Burger</b><small>RESTAURANT</small></span></a><span>Restaurant management · Orders and menu use shared server data</span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="admin.js"></script>
+</body>
+</html>

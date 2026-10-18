@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fffaf4">
+  <title>New Burger | Cashier</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-overrides.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">NB</span><span><b>New Burger</b><small>CASHIER</small></span></a>
+    <div class="top-actions"><a class="button button-outline" href="index.html">Customer website</a><button class="button button-outline hidden" id="cashierLogoutBtn">Sign out</button></div>
+  </header>
+  <main class="section admin-page">
+    <section class="admin-login hidden" id="cashierLoginPanel">
+      <span class="eyebrow">STAFF ACCESS</span><h1>Cashier sign in</h1>
+      <form id="cashierLoginForm">
+        <div class="field"><label for="cashierEmail">Staff email</label><input id="cashierEmail" type="email" required autocomplete="username"></div>
+        <div class="field"><label for="cashierPassword">Password</label><input id="cashierPassword" type="password" required autocomplete="current-password"></div>
+        <button class="button button-dark wide" type="submit">Sign in</button><p class="form-error" id="cashierLoginError" role="alert"></p>
+      </form>
+    </section>
+    <section class="hidden" id="cashierPanel">
+      <div class="section-heading"><div><span class="eyebrow">ORDER OPERATIONS</span><h1>Incoming orders</h1><p>Confirm orders, create walk-ins, record cash, and manage pickup and dine-in visits.</p></div><div class="admin-item-actions"><button class="button button-dark" id="newWalkInBtn">New walk-in order</button><button class="button button-outline" id="cashierRefreshBtn">Refresh</button></div></div>
+      <section class="admin-card dashboard-card hidden" id="walkInPanel">
+        <h2>New walk-in order</h2>
+        <form id="walkInForm">
+          <div class="form-grid">
+            <div class="field"><label for="walkInType">Order type</label><select id="walkInType" required><option value="pickup">Pickup / Takeaway</option><option value="dine-in">Dine-in</option></select></div>
+            <div class="field hidden" id="walkInTableField"><label for="walkInTable">Table</label><select id="walkInTable" required></select></div>
+            <div class="field"><label for="walkInCustomerName">Customer name (optional)</label><input id="walkInCustomerName" maxlength="100"></div>
+            <div class="field"><label for="walkInCustomerPhone">Phone (optional)</label><input id="walkInCustomerPhone" type="tel" maxlength="40"></div>
+            <div class="field full"><label>Order items</label><div id="walkInLines" class="walkin-lines"></div><button class="button button-outline" id="addWalkInLineBtn" type="button">Add item</button></div>
+            <div class="field full"><label class="availability-toggle"><input id="walkInPaid" type="checkbox"> Cash received now</label></div>
+          </div>
+          <div class="admin-form-actions"><button class="button button-dark" type="submit" id="placeWalkInBtn">Create order</button><button class="button button-outline" id="cancelWalkInBtn" type="button">Cancel</button></div>
+          <p id="walkInError" class="form-error" role="alert"></p>
+        </form>
+      </section>
+      <div id="cashierOrders" class="admin-orders"></div>
+    </section>
+  </main>
+  <div class="toast" id="cashierToast" role="status" aria-live="polite"></div>
+  <script src="cashier.js"></script>
+</body>
+</html>
